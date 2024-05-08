@@ -20,21 +20,19 @@ class Content:
 
 def save(content: Content):
     if is_bottom_line_item(content):
-        line_item = ContentLineItem(
-            id=create_id(content.name),
-            name=content.name,
-            sub_content_ids=[])
-        id = save_line_item(line_item)
-        return id
+        sub_content_ids = []
+        line_id = create_id(content.name)
     else:
         sub_content_ids = list(map(save, content.sub_contents))
-        line_item = ContentLineItem(
-            id=create_id(content.name, sub_content_ids),
-            name=content.name,
-            sub_content_ids=sub_content_ids
-        )
-        id = save_line_item(line_item)
-        return id
+        line_id = create_id(content.name, sub_content_ids)
+
+    line_item = ContentLineItem(
+        id=line_id,
+        name=content.name,
+        sub_content_ids=sub_content_ids)
+
+    id = save_line_item(line_item)
+    return id
 
 
 def save_line_item(line_item: ContentLineItem):
