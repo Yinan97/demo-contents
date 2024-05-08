@@ -18,12 +18,12 @@ class Content:
     sub_contents: list
 
 
-def save(content: Content):
+def save_content(content: Content):
     if is_bottom_line_item(content):
         sub_content_ids = []
         line_id = create_id(content.name)
     else:
-        sub_content_ids = list(map(save, content.sub_contents))
+        sub_content_ids = list(map(save_content, content.sub_contents))
         line_id = create_id(content.name, sub_content_ids)
 
     line_item = ContentLineItem(
@@ -80,7 +80,7 @@ if __name__ == '__main__':
     ]
 
     for content in contents_v1:
-        save(content)
+        save_content(content)
 
     print("--------------------")
 
@@ -105,8 +105,8 @@ if __name__ == '__main__':
     ]
 
     for content in contents_v2:
-        save(content)
+        save_content(content)
 
     empty_content = [Content(name="content_root", sub_contents=[])]
     for content in empty_content:
-        save(content)
+        save_content(content)
