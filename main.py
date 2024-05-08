@@ -2,7 +2,6 @@ import dataclasses
 import json
 import sqlite3
 import uuid
-from pprint import pprint
 from uuid import uuid5
 
 
@@ -27,19 +26,14 @@ class Content:
     @staticmethod
     def from_entity(content_line_item: ContentLineItem):
         if content_line_item.sub_content_ids is None:
-            return Content(
-                id=content_line_item.id,
-                name=content_line_item.name,
-                sub_contents=[]
-            )
+            sub_content_line_items = []
         else:
             sub_content_line_items = list(map(get_content_line_item, content_line_item.sub_content_ids))
-            print(sub_content_line_items)
-            return Content(
-                id=content_line_item.id,
-                name=content_line_item.name,
-                sub_contents=list(map(Content.from_entity, sub_content_line_items))
-            )
+        return Content(
+            id=content_line_item.id,
+            name=content_line_item.name,
+            sub_contents=list(map(Content.from_entity, sub_content_line_items))
+        )
 
 
 def save_content(content: Content):
@@ -89,20 +83,17 @@ def get_content_line_item(content_root_id: str):
         row = cursor.fetchone()
         id, name, sub_content_ids_json = row
         content_line_item = ContentLineItem(id, name, json.loads(sub_content_ids_json))
-        print(content_line_item)
         return content_line_item
 
 
 if __name__ == '__main__':
     root_line_item = get_content_line_item("58d6778d-1222-5fc2-9877-2641c19c68a7")
-    print(root_line_item)
     content_from_root = Content.from_entity(root_line_item)
-    pprint(content_from_root)
+    print(content_from_root)
 
     root_line_item = get_content_line_item("dd65c30b-558a-55af-b873-66781f3ab9ed")
-    print(root_line_item)
     content_from_root = Content.from_entity(root_line_item)
-    pprint(content_from_root)
+    print(content_from_root)
 
 # if __name__ == '__main__':
 #     contents_v1 = [
