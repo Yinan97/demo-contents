@@ -19,8 +19,6 @@ class Content:
 
 
 def save(content: Content):
-    if not content:
-        return
     if is_bottom_line_item(content):
         line_item = ContentLineItem(
             id=create_id(content.name),
