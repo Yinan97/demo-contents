@@ -62,41 +62,55 @@ def create_id(string, sub_content_ids=[]):
 
 
 if __name__ == '__main__':
-    contentsv1 = [
+    contents_v1 = [
         Content(
-            name="level 1",
+            name="content_root",
             sub_contents=[
-                Content(name="1.1", sub_contents=[]),
-                Content(name="1.2", sub_contents=[])
+                Content(
+                    name="level 1",
+                    sub_contents=[
+                        Content(name="1.1", sub_contents=[]),
+                        Content(name="1.2", sub_contents=[])
+                    ]
+                ),
+                Content(
+                    name="level 2",
+                    sub_contents=[Content(name="2.1", sub_contents=[
+                        Content(name="2.1.1", sub_contents=[]),
+                    ])]
+                )
             ]
-        ),
-        Content(
-            name="level 2",
-            sub_contents=[Content(name="2.1", sub_contents=[
-                Content(name="2.1.1", sub_contents=[]),
-            ]), ]
         )
     ]
 
-    for content in contentsv1:
+    for content in contents_v1:
         save(content)
-    
-    print( "--------------------")
-        
-    contentsv2 = [
+
+    print("--------------------")
+
+    contents_v2 = [
         Content(
-            name="level 1",
+            name="content_root",
             sub_contents=[
-                Content(name="1.1", sub_contents=[]),
+                Content(
+                    name="level 1",
+                    sub_contents=[
+                        Content(name="1.1", sub_contents=[]),
+                    ]
+                ),
+                Content(
+                    name="level 2",
+                    sub_contents=[Content(name="2.1", sub_contents=[
+                        Content(name="2.1.1", sub_contents=[]),
+                    ]), ]
+                )
             ]
-        ),
-        Content(
-            name="level 2",
-            sub_contents=[Content(name="2.1", sub_contents=[
-                Content(name="2.1.1", sub_contents=[]),
-            ]), ]
         )
     ]
-    
-    for content in contentsv2:
+
+    for content in contents_v2:
+        save(content)
+
+    empty_content = [Content(name="content_root", sub_contents=[])]
+    for content in empty_content:
         save(content)
